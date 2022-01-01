@@ -1,15 +1,12 @@
 public static class Environments
 {
-    private static readonly Dictionary<EnvironmentType, Environment> _environments = new()
+    public static readonly Environment[] All = new[]
     {
-        { EnvironmentType.dev, new Environment { Name = "Development", Abbr = EnvironmentType.dev } },
-        { EnvironmentType.test, new Environment { Name = "Test", Abbr = EnvironmentType.test } },
-        { EnvironmentType.stage, new Environment { Name = "Staging", Abbr = EnvironmentType.stage } },
-        { EnvironmentType.prod, new Environment { Name = "Production", Abbr = EnvironmentType.prod } },
+        new Environment { Name = "Development", Abbr = EnvironmentType.dev },
+        new Environment { Name = "Test", Abbr = EnvironmentType.test },
+        new Environment { Name = "Staging", Abbr = EnvironmentType.stage },
+        new Environment { Name = "Production", Abbr = EnvironmentType.prod },
     };
 
-    public static Environment[] All()
-    {
-        return _environments.Select(x => x.Value).ToArray();
-    }
+    public static Environment Find(string environment) => All.FirstOrDefault(x => x.IsMatch(environment));
 }

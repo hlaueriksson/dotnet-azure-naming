@@ -177,9 +177,9 @@ public static class Validator
     /// <param name="resourceName">The resource name after it has been transformed.</param>
     /// <param name="resourceType">The resource type whose naming rules we validate with.</param>
     /// <returns>Validation result if invalid, otherwise true.</returns>
-    public static ValidationResult Validate(string resourceName, string resourceType)
+    public static ValidationResult Validate(string resourceName, AzureResourceType resourceType)
     {
-        var validations = AzureResourceTypes.FindValidations(resourceType);
+        var validations = resourceType.Validations;
 
         // for all validations on the resource type
         for (var i = 0; i < validations.Length; i += 1)

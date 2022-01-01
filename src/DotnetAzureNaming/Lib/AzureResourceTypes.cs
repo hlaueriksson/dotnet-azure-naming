@@ -34,25 +34,7 @@ public static class AzureResourceTypes
         return _data.Select(x => x.Value).OrderBy(x => x.Type).ToArray();
     }
 
-    /// <summary>
-    /// Find the transformation for the given resource type.
-    /// </summary>
-    /// <param name="abbr">The abbreviation of the resource type.</param>
-    /// <returns>The transformation for the given resource type.</returns>
-    public static string FindTransformerName(string abbr)
-    {
-        return _data.ContainsKey(abbr) ? _data[abbr].Transformer : null;
-    }
-
-    /// <summary>
-    /// Find the validations for the given resource type.
-    /// </summary>
-    /// <param name="abbr">The abbreviation of the resource type.</param>
-    /// <returns>The validations for the given resource type.</returns>
-    public static string[] FindValidations(string abbr)
-    {
-        return _data.ContainsKey(abbr) ? _data[abbr].Validations : null;
-    }
+    public static AzureResourceType Find(string azureResource) => _data.FirstOrDefault(x => x.Value.IsMatch(azureResource)).Value;
 }
 
 public class AzureResourceTypeMap : ClassMap<AzureResourceType>

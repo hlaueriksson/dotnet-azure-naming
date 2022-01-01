@@ -8,7 +8,7 @@ namespace DotnetAzureNaming.Tests
     public class AzureResourceTypesTests
     {
         [LoFu, Test]
-        public void findTransformerName()
+        public void Find()
         {
             void should_find_transformer__alphanumerics__for_Front_Door_firewall_policy()
             {
@@ -16,26 +16,22 @@ namespace DotnetAzureNaming.Tests
                 var resourceType = "fdfp";
 
                 // act
-                var transformerName = AzureResourceTypes.FindTransformerName(resourceType);
+                var result = AzureResourceTypes.Find(resourceType);
 
                 // arrange
-                Expect(transformerName).To.Equal("alphanumerics");
+                Expect(result.Transformer).To.Equal("alphanumerics");
             }
-        }
 
-        [LoFu, Test]
-        public void findValidations()
-        {
             void should_find_validations_for_Front_Door_firewall_policy()
             {
                 // arrange
                 var resourceType = "fdfp";
 
                 // act
-                var validations = AzureResourceTypes.FindValidations(resourceType);
+                var result = AzureResourceTypes.Find(resourceType);
 
                 // arrange
-                Expect(validations).To.Contain("startWithLetter");
+                Expect(result.Validations).To.Contain("startWithLetter");
             }
         }
     }

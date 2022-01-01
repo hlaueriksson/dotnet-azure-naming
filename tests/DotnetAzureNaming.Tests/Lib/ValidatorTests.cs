@@ -242,7 +242,7 @@ namespace DotnetAzureNaming.Tests
                 var resourceName = "klabbet-web-stage-app";
 
                 // act
-                var result = Validator.Validate(resourceName, "app");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("app"));
 
                 // assert
                 Expect(result).To.Equal(true);
@@ -255,7 +255,7 @@ namespace DotnetAzureNaming.Tests
                   "klabbet-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-web-stage-app";
 
                 // act
-                var result = Validator.Validate(resourceName, "app");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("app"));
 
                 // assert
                 Expect(result).Not.To.Equal(true);
@@ -268,7 +268,7 @@ namespace DotnetAzureNaming.Tests
                 var resourceName = "web";
 
                 // act
-                var result = Validator.Validate(resourceName, "app");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("app"));
 
                 // assert
                 Expect(result).To.Equal(true);
@@ -280,7 +280,7 @@ namespace DotnetAzureNaming.Tests
                 var resourceName = "w";
 
                 // act
-                var result = Validator.Validate(resourceName, "app");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("app"));
 
                 // assert
                 Expect(result).Not.To.Equal(true);
@@ -293,7 +293,7 @@ namespace DotnetAzureNaming.Tests
                 var resourceName = "klabbet.web.prod.dnsz";
 
                 // act
-                var result = Validator.Validate(resourceName, "dnsz");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("dnsz"));
 
                 // assert
                 Expect(result).To.Equal(true);
@@ -305,7 +305,7 @@ namespace DotnetAzureNaming.Tests
                 var resourceName = "localhost";
 
                 // act
-                var result = Validator.Validate(resourceName, "dnsz");
+                var result = Validator.Validate(resourceName, AzureResourceTypes.Find("dnsz"));
 
                 // assert
                 Expect(result).Not.To.Equal(true);

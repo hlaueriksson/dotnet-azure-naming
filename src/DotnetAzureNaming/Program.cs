@@ -1,32 +1,58 @@
+using CommandLine;
 using Sharprompt;
 
-// Azure Resource
-var resourceType = Prompt.Select("Azure Resource*", AzureResourceTypes.All(), 10, textSelector: x => x.Type);
-
-// Project Name
-var projectName = Prompt.Input<string>("Project Name*", validators: new[] { Validators.Required() });
-
-// Component Name
-var componentName = Prompt.Input<string>("Component Name");
-
-// Environment
-var environment = Prompt.Select("Environment", Environments.All(), defaultValue: Environments.All().First(), textSelector: x => x.Name);
-
-// ResourceName
-var resourceName = ResourceName.Transform(projectName, componentName, environment, resourceType);
-var validationResult = ResourceName.Validate(resourceName, resourceType);
-Console.WriteLine($"COMPUTED NAME: {resourceName}");
-if (validationResult != ValidationResult.Success)
+Parser.Default.ParseArguments<Options>(args)
+.WithParsed(o =>
 {
-    Console.ForegroundColor = Prompt.ColorSchema.Error;
-    Console.WriteLine(validationResult.Message);
-    Console.ResetColor();
-}
+    AzureResource azureResource = null;
 
-// ResourceGroup
-var resourceGroup = ResourceGroup.Transform(projectName, componentName, environment);
-Console.WriteLine($"RESOURCE GROUP: {resourceGroup}");
-Console.WriteLine("RESOURCE TAGS");
-Console.WriteLine($"Project: {projectName}");
-Console.WriteLine($"Component: {componentName}");
-Console.WriteLine($"Environment: {environment.Name}");
+    if (o.IsValid())
+    {
+        azureResource = new AzureResource
+        {
+            ProjectName = o.ProjectName,
+            ComponentName = o.ComponentName,
+            Environment = Environments.Find(o.Environment) ?? Environments.All.First(),
+            ResourceType = AzureResourceTypes.Find(o.AzureResource),
+        };
+
+        azureResource.Write();
+
+        if (!azureResource.IsValid()) return;
+    }
+    else
+    {
+        // Azure Resource
+        var resourceType = Prompt.Select("Azure Resource*", AzureResourceTypes.All(), 10, textSelector: x => x.Type);
+
+        // Project Name
+        var projectName = Prompt.Input<string>("Project Name*", validators: new[] { Validators.Required() });
+
+        // Component Name
+        var componentName = Prompt.Input<string>("Component Name");
+
+        // Environment
+        var environment = Prompt.Select("Environment", Environments.All, defaultValue: Environments.All.First(), textSelector: x => x.Name);
+
+        azureResource = new AzureResource
+        {
+            ProjectName = projectName,
+            ComponentName = componentName,
+            Environment = environment,
+            ResourceType = resourceType,
+        };
+    }
+
+    // ResourceName
+    new ResourceName(azureResource).Write();
+
+    // ResourceGroup
+    new ResourceGroup(azureResource).Write();
+
+    // TagTable
+    new TagTable(azureResource).Write();
+})
+.WithNotParsed(e =>
+{
+    Console.WriteLine("Errors: " + string.Join(", ", e.Select(x => x.Tag)));
+});

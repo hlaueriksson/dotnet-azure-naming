@@ -12,14 +12,11 @@ namespace DotnetAzureNaming.Tests
         {
             void should_return_all_environments()
             {
-                // act
-                var result = Environments.All();
-
                 // assert
-                Expect(result[0].Name).To.Equal("Development");
-                Expect(result[1].Name).To.Equal("Test");
-                Expect(result[2].Name).To.Equal("Staging");
-                Expect(result[3].Name).To.Equal("Production");
+                Expect(Environments.All[0].Name).To.Equal("Development");
+                Expect(Environments.All[1].Name).To.Equal("Test");
+                Expect(Environments.All[2].Name).To.Equal("Staging");
+                Expect(Environments.All[3].Name).To.Equal("Production");
             }
         }
     }

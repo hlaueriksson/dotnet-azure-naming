@@ -10,4 +10,6 @@ public record AzureResourceType
     public string Transformer { get; set; }
     /// <summary>The name validations that apply to this resource type.</summary>
     public string[] Validations { get; set; }
+
+    public bool IsMatch(string value) => Abbr.Equals(value, StringComparison.InvariantCultureIgnoreCase);
 }

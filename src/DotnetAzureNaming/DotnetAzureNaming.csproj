@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="Sharprompt" Version="2.3.7" />
   </ItemGroup>
