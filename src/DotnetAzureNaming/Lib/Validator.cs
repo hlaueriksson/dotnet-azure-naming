@@ -48,7 +48,7 @@ public static class Validator
     public static ValidationResult atLeast2Labels(string resourceName)
     {
         // if the string has one dot `.` it has two labels
-        if (!resourceName.Contains("."))
+        if (!resourceName.Contains('.'))
         {
             return new ValidationResult
             {
