@@ -8,9 +8,9 @@ public static class ConsoleFormat
         if (displayOptions)
         {
             if (result.ResourceType != null)
-                WriteLine($"Azure Resource: {result.ResourceType.Type}");
+                WriteLine($"Resource Type: {result.ResourceType.Type}");
             else
-                WriteError("Azure Resource*:");
+                WriteError("Resource Type*:");
             if (result.ProjectName != null)
                 WriteLine($"Project Name:   {result.ProjectName}");
             else

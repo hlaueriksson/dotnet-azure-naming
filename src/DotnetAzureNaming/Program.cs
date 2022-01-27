@@ -19,12 +19,12 @@ Parser.Default.ParseArguments<Options>(args)
             o.ProjectName,
             o.ComponentName,
             Environments.Find(o.Environment) ?? Environments.All().First(),
-            AzureResourceTypes.Find(o.AzureResource));
+            AzureResourceTypes.Find(o.ResourceType));
     }
     else
     {
-        // Azure Resource
-        var resourceType = Prompt.Select("Azure Resource*", AzureResourceTypes.All(), 10, textSelector: x => x.Type);
+        // Resource Type
+        var resourceType = Prompt.Select("Resource Type*", AzureResourceTypes.All(), 10, textSelector: x => x.Type);
 
         // Project Name
         var projectName = Prompt.Input<string>("Project Name*", validators: new[] { Validators.Required() });
@@ -54,10 +54,6 @@ Parser.Default.ParseArguments<Options>(args)
             ConsoleFormat.Write(result, o.IsValid());
             break;
     }
-})
-.WithNotParsed(e =>
-{
-    Console.WriteLine("Errors: " + string.Join(", ", e.Select(x => x.Tag)));
 });
 
-return result.ValidationResult == ValidationResult.Success ? 0 : -1;
+return result?.ValidationResult == ValidationResult.Success ? 0 : -1;
