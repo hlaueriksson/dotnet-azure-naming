@@ -1,15 +1,20 @@
 public class AzureResourceResult
 {
     // Input
-    public string ProjectName { get; }
-    public string ComponentName { get; }
-    public Environment Environment { get; }
-    public AzureResourceType ResourceType { get; }
+    public string ProjectName { get; set; }
+    public string ComponentName { get; set; }
+    public Environment Environment { get; set; }
+    public AzureResourceType ResourceType { get; set; }
 
     // Output
-    public string ResourceName { get; }
-    public string ResourceGroup { get; }
-    public ValidationResult ValidationResult { get; }
+    public string ResourceName { get; set; }
+    public string ResourceGroup { get; set; }
+    public ValidationResult ValidationResult { get; set; }
+
+    internal AzureResourceResult()
+    {
+        // for XmlFormat
+    }
 
     public AzureResourceResult(string projectName, string componentName, Environment environment, AzureResourceType resourceType)
     {

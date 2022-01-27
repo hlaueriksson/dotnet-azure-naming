@@ -14,6 +14,9 @@ public class Options
     [Option('e', "environment", Required = false, HelpText = "Environment")]
     public string Environment { get; set; }
 
+    [Option('f', "format", Required = false, HelpText = "Format the result as {json|xml}")]
+    public string Format { get; set; }
+
     public bool IsValid()
     {
         return AzureResource != null && ProjectName != null;

@@ -42,7 +42,18 @@ Parser.Default.ParseArguments<Options>(args)
             resourceType);
     }
 
-    ConsoleFormat.Write(result, o.IsValid());
+    switch (o.Format?.ToLower())
+    {
+        case "json":
+            JsonFormat.Write(result);
+            break;
+        case "xml":
+            XmlFormat.Write(result);
+            break;
+        default:
+            ConsoleFormat.Write(result, o.IsValid());
+            break;
+    }
 })
 .WithNotParsed(e =>
 {
