@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Copyright>This tool will help you name Azure Resources. It follows the naming convention defined by Klabbet (https://tinyurl.com/klabbet-naming).</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
