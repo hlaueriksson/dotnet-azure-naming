@@ -8,24 +8,18 @@ var config = new ConfigurationBuilder()
     .Build();
 Settings.Current = config.GetSection("Settings").Get<Settings>();
 
+AzureResourceResult result = null;
+
 Parser.Default.ParseArguments<Options>(args)
 .WithParsed(o =>
 {
-    AzureResource azureResource = null;
-
     if (o.IsValid())
     {
-        azureResource = new AzureResource
-        {
-            ProjectName = o.ProjectName,
-            ComponentName = o.ComponentName,
-            Environment = Environments.Find(o.Environment) ?? Environments.All().First(),
-            ResourceType = AzureResourceTypes.Find(o.AzureResource),
-        };
-
-        azureResource.Write();
-
-        if (!azureResource.IsValid()) return;
+        result = new(
+            o.ProjectName,
+            o.ComponentName,
+            Environments.Find(o.Environment) ?? Environments.All().First(),
+            AzureResourceTypes.Find(o.AzureResource));
     }
     else
     {
@@ -41,25 +35,18 @@ Parser.Default.ParseArguments<Options>(args)
         // Environment
         var environment = Prompt.Select("Environment", Environments.All(), defaultValue: Environments.All().First(), textSelector: x => x.Name);
 
-        azureResource = new AzureResource
-        {
-            ProjectName = projectName,
-            ComponentName = componentName,
-            Environment = environment,
-            ResourceType = resourceType,
-        };
+        result = new(
+            projectName,
+            componentName,
+            environment,
+            resourceType);
     }
 
-    // ResourceName
-    new ResourceName(azureResource).Write();
-
-    // ResourceGroup
-    new ResourceGroup(azureResource).Write();
-
-    // TagTable
-    new TagTable(azureResource).Write();
+    ConsoleFormat.Write(result, o.IsValid());
 })
 .WithNotParsed(e =>
 {
     Console.WriteLine("Errors: " + string.Join(", ", e.Select(x => x.Tag)));
 });
+
+return result.ValidationResult == ValidationResult.Success ? 0 : -1;

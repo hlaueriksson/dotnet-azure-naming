@@ -13,7 +13,7 @@ namespace DotnetAzureNaming.Tests
             void should_transform_resource_group_name_from_just_project_name()
             {
                 // act
-                var result = ResourceGroup.Transform("klabbet", "", Environments.All().Single(x => x.Abbr == "stage"));
+                var result = new AzureResourceResult("klabbet", "", Environments.All().Single(x => x.Abbr == "stage"), AzureResourceTypes.All().First()).ResourceGroup;
 
                 // assert
                 Expect(result).To.Equal("klabbet-stage-rg");
@@ -22,7 +22,7 @@ namespace DotnetAzureNaming.Tests
             void should_transform_resource_group_name_from_project_and_component_name()
             {
                 // act
-                var result = ResourceGroup.Transform("klabbet", "web", Environments.All().Single(x => x.Abbr == "prod"));
+                var result = new AzureResourceResult("klabbet", "web", Environments.All().Single(x => x.Abbr == "prod"), AzureResourceTypes.All().First()).ResourceGroup;
 
                 // assert
                 Expect(result).To.Equal("klabbet-web-prod-rg");
