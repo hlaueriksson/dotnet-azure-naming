@@ -11,7 +11,10 @@ public class ResourceGroup
     {
         // transform the appropriate name for the resource group
         var resourceGroup = Transformer.Transform(
-            $"{projectName} ${componentName} ${environment.Abbr} rg",
+            Settings.Current.ResourceGroupFormat
+            .Replace("{projectName}", projectName)
+            .Replace("{componentName}", componentName)
+            .Replace("{environment}", environment.Abbr),
             "alphanumericsHyphens"
         );
 

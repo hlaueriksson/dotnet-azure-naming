@@ -14,7 +14,11 @@ public class ResourceName
     {
         // try to transform the input to a resource name
         var resourceName = Transformer.Transform(
-            $"{projectName} ${componentName} ${environment.Abbr} ${resourceType.Abbr}",
+            Settings.Current.ResourceNameFormat
+            .Replace("{projectName}", projectName)
+            .Replace("{componentName}", componentName)
+            .Replace("{environment}", environment.Abbr)
+            .Replace("{resourceType}", resourceType.Abbr),
             resourceType.Transformer ?? "alphanumericsHyphens"
         );
 

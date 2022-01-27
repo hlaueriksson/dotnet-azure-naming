@@ -1,5 +1,12 @@
 using CommandLine;
+using Microsoft.Extensions.Configuration;
 using Sharprompt;
+
+var config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+Settings.Current = config.GetSection("Settings").Get<Settings>();
 
 Parser.Default.ParseArguments<Options>(args)
 .WithParsed(o =>
@@ -12,7 +19,7 @@ Parser.Default.ParseArguments<Options>(args)
         {
             ProjectName = o.ProjectName,
             ComponentName = o.ComponentName,
-            Environment = Environments.Find(o.Environment) ?? Environments.All.First(),
+            Environment = Environments.Find(o.Environment) ?? Environments.All().First(),
             ResourceType = AzureResourceTypes.Find(o.AzureResource),
         };
 
@@ -32,7 +39,7 @@ Parser.Default.ParseArguments<Options>(args)
         var componentName = Prompt.Input<string>("Component Name");
 
         // Environment
-        var environment = Prompt.Select("Environment", Environments.All, defaultValue: Environments.All.First(), textSelector: x => x.Name);
+        var environment = Prompt.Select("Environment", Environments.All(), defaultValue: Environments.All().First(), textSelector: x => x.Name);
 
         azureResource = new AzureResource
         {
