@@ -1,3 +1,5 @@
+using System.Reflection;
+
 public class Settings
 {
     public string AzureResourceTypesPath { get; set; }
@@ -5,9 +7,20 @@ public class Settings
     public string ResourceNameFormat { get; set; }
     public string ResourceGroupFormat { get; set; }
 
+    public string Location =>
+        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+    public string GetAbsoluteAzureResourceTypesPath() =>
+        Path.IsPathRooted(AzureResourceTypesPath) ? AzureResourceTypesPath : Path.Combine(Location, AzureResourceTypesPath);
+
     public static Settings Current
     {
-        get => _current ?? _default;
+        get
+        {
+            if (_current == null)
+                _current = _default;
+            return _current;
+        }
         internal set
         {
             _current = value ?? _default;

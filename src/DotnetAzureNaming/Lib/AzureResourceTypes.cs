@@ -18,7 +18,7 @@ public static class AzureResourceTypes
 
     static AzureResourceTypes()
     {
-        var path = Settings.Current.AzureResourceTypesPath;
+        var path = Settings.Current.GetAbsoluteAzureResourceTypesPath();
         using (var reader = new StreamReader(path))
         using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
         {

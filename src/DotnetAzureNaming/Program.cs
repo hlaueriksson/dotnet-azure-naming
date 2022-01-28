@@ -6,7 +6,7 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables()
     .Build();
-Settings.Current = config.GetSection("Settings").Get<Settings>();
+Settings.Current = config.GetSection("DotnetAzureNamingSettings").Get<Settings>();
 
 AzureResourceResult result = null;
 
