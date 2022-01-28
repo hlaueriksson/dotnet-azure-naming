@@ -56,4 +56,4 @@ Parser.Default.ParseArguments<Options>(args)
     }
 });
 
-return result?.ValidationResult == ValidationResult.Success ? 0 : -1;
+return result?.GetExitCode() ?? -1;

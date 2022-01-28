@@ -11,9 +11,8 @@ public class AzureResourceResult
     public string ResourceGroup { get; set; }
     public ValidationResult ValidationResult { get; set; }
 
-    internal AzureResourceResult()
+    public AzureResourceResult()
     {
-        // for XmlFormat
     }
 
     public AzureResourceResult(string projectName, string componentName, Environment environment, AzureResourceType resourceType)
@@ -37,6 +36,11 @@ public class AzureResourceResult
         ResourceName = GetResourceName();
         ResourceGroup = GetResourceGroup();
         ValidationResult = Validate(ResourceName);
+    }
+
+    public int GetExitCode()
+    {
+        return ValidationResult == ValidationResult.Success ? 0 : ValidationResult?.Message?.GetDeterministicHashCode() ?? -1;
     }
 
     /// <summary>

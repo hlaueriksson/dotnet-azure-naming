@@ -5,10 +5,10 @@ using static NExpect.Expectations;
 
 namespace DotnetAzureNaming.Tests
 {
-    public class ResourceGroupTests
+    public class AzureResourceResultTests
     {
         [LoFu, Test]
-        public void Transform()
+        public void ResourceGroup()
         {
             void should_transform_resource_group_name_from_just_project_name()
             {
@@ -26,6 +26,19 @@ namespace DotnetAzureNaming.Tests
 
                 // assert
                 Expect(result).To.Equal("klabbet-web-prod-rg");
+            }
+        }
+
+        [LoFu, Test]
+        public void ValidationResult()
+        {
+            void should_display_validation_error_when_resource_name_doesnt_validate()
+            {
+                // act
+                var result = new AzureResourceResult("-klabbet", "", Environments.All().First(), AzureResourceTypes.All().Single(x => x.Abbr == "mysql")).ValidationResult;
+
+                // assert
+                Expect(result.Message).To.Equal("Resource name must start with an alphanumeric character");
             }
         }
     }

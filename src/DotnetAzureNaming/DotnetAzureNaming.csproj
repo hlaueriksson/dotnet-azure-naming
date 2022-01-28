@@ -25,4 +25,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="DotnetAzureNaming.Tests" />
+  </ItemGroup>
+
 </Project>
