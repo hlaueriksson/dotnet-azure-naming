@@ -6,7 +6,6 @@ using NUnit.Framework;
 
 namespace DotnetAzureNaming.Tests
 {
-    [Explicit]
     public class IntegrationTests
     {
         [Test]
