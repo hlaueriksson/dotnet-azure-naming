@@ -13,6 +13,12 @@ AzureResourceResult result = null;
 Parser.Default.ParseArguments<Options>(args)
 .WithParsed(o =>
 {
+    if (o.Settings)
+    {
+        SettingsFormat.Write();
+        return;
+    }
+
     if (o.IsValid())
     {
         result = new(

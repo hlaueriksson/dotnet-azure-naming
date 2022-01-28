@@ -17,6 +17,9 @@ public class Options
     [Option('f', "format", Required = false, HelpText = "Format the result as {json|xml}")]
     public string Format { get; set; }
 
+    [Option("settings", Required = false, HelpText = "Display current settings.")]
+    public bool Settings { get; set; }
+
     public bool IsValid()
     {
         return ResourceType != null && ProjectName != null;
