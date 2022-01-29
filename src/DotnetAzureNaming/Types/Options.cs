@@ -1,4 +1,5 @@
 using CommandLine;
+using CommandLine.Text;
 
 public class Options
 {
@@ -14,11 +15,22 @@ public class Options
     [Option('e', "environment", Required = false, HelpText = "Environment\nYou MUST use the correct environment specifier for your environment.\nSpecifier:\tEnvironment:\ndev\t\tDevelopment\ntest\t\tTest\nstage\t\tStaging\nprod\t\tProduction\nYou MAY add custom environment specifiers to your naming convention.")]
     public string Environment { get; set; }
 
-    [Option('f', "format", Required = false, HelpText = "Format the result as {json|xml}")]
+    [Option('f', "format", Required = false, HelpText = "Format the result as {JSON|XML}")]
     public string Format { get; set; }
 
     [Option("settings", Required = false, HelpText = "Display current settings.")]
     public bool Settings { get; set; }
+
+    [Usage(ApplicationAlias = "azure-naming")]
+    public static IEnumerable<Example> Examples
+    {
+        get
+        {
+            yield return new Example("Long", new Options { ResourceType = "Function app", ProjectName = "Titanic", ComponentName = "Web", Environment = "Development" });
+            yield return new Example("Short", new UnParserSettings { PreferShortName = true }, new Options { ResourceType = "func", ProjectName = "Titanic", ComponentName = "Web", Environment = "dev" });
+            yield return new Example("Format as JSON", new UnParserSettings { PreferShortName = true }, new Options { ResourceType = "func", ProjectName = "Titanic", ComponentName = "Web", Environment = "dev", Format = "json" });
+        }
+    }
 
     public bool IsValid()
     {
