@@ -11,19 +11,19 @@ namespace DotnetAzureNaming.Tests
         [Test]
         public void Help()
         {
-            var result = Run("--help");
-            result.ExitCode.Should().Be(-1);
-            result.StandardError.Should().NotBeEmpty();
-            result.StandardOutput.Should().BeEmpty();
+            var (ExitCode, StandardOutput, StandardError) = Run("--help");
+            ExitCode.Should().Be(-1);
+            StandardError.Should().NotBeEmpty();
+            StandardOutput.Should().BeEmpty();
         }
 
         [Test]
         public void Version()
         {
-            var result = Run("--version");
-            result.ExitCode.Should().Be(-1);
-            result.StandardError.Should().NotBeEmpty();
-            result.StandardOutput.Should().BeEmpty();
+            var (ExitCode, StandardOutput, StandardError) = Run("--version");
+            ExitCode.Should().Be(-1);
+            StandardError.Should().NotBeEmpty();
+            StandardOutput.Should().BeEmpty();
         }
 
         [Test]
@@ -173,7 +173,7 @@ Environment:    Development
                 });
         }
 
-        (int ExitCode, string StandardOutput, string StandardError) Run(string args)
+        static (int ExitCode, string StandardOutput, string StandardError) Run(string args)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -188,18 +188,18 @@ Environment:    Development
 
             using (var exeProcess = Process.Start(startInfo))
             {
-                exeProcess.WaitForExit();
+                exeProcess!.WaitForExit();
                 return new(exeProcess.ExitCode, exeProcess.StandardOutput.ReadToEnd(), exeProcess.StandardError.ReadToEnd());
             }
         }
 
-        AzureResourceResult FromJson(string json) => JsonSerializer.Deserialize<AzureResourceResult>(json);
+        static AzureResourceResult FromJson(string json) => JsonSerializer.Deserialize<AzureResourceResult>(json)!;
 
-        AzureResourceResult FromXml(string xml)
+        static AzureResourceResult FromXml(string xml)
         {
             var serializer = new XmlSerializer(typeof(AzureResourceResult));
             var reader = new StringReader(xml);
-            return (AzureResourceResult)serializer.Deserialize(reader);
+            return (AzureResourceResult)serializer.Deserialize(reader)!;
         }
     }
 }
