@@ -11,5 +11,5 @@ public record AzureResourceType
     /// <summary>The name validations that apply to this resource type.</summary>
     public string[] Validations { get; set; }
 
-    public bool IsMatch(string value) => Abbr.Equals(value, StringComparison.InvariantCultureIgnoreCase);
+    public bool IsMatch(string value) => Abbr.Equals(value, StringComparison.InvariantCultureIgnoreCase) || Type.Equals(value, StringComparison.InvariantCultureIgnoreCase);
 }
