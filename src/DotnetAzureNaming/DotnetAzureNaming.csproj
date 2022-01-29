@@ -4,8 +4,31 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Copyright>This tool will help you name Azure Resources. It follows the naming convention defined by Klabbet (https://tinyurl.com/klabbet-naming).</Copyright>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>azure-naming</ToolCommandName>
+    <Version>1.0.0</Version>
+    <PackageReleaseNotes>Initial release 🎉</PackageReleaseNotes>
+    <Authors>Henrik Lau Eriksson</Authors>
+    <Description>
+This tool will help you name Azure Resources ☁️✍️
+✅ It follows the naming convention defined by Klabbet (https://tinyurl.com/klabbet-naming)
+📄 You can create your own naming convention by editing the appsettings.json file
+ℹ️ See instructions at: https://github.com/hlaueriksson/dotnet-azure-naming
+
+The original, online version of this tool can be found at: https://azure-naming.klabbet.com/
+    </Description>
+    <PackageId>dotnet-azure-naming</PackageId>
+    <PackageProjectUrl>https://github.com/hlaueriksson/dotnet-azure-naming</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>DotnetAzureNaming.md</PackageReadmeFile>
+    <PackageTags>Azure;Naming</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\icon.png" Link="icon.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\DotnetAzureNaming.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
@@ -20,9 +43,9 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Update="azure-resource-types.csv">
+    <Content Include="azure-resource-types.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

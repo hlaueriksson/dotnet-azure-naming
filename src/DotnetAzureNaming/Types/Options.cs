@@ -1,5 +1,15 @@
+using System.Reflection;
 using CommandLine;
 using CommandLine.Text;
+
+[assembly: AssemblyCopyright(@"
+This tool will help you name Azure Resources.
+It follows the naming convention defined by Klabbet (https://tinyurl.com/klabbet-naming).
+You can create your own naming convention by editing the appsettings.json file.
+See instructions at: https://github.com/hlaueriksson/dotnet-azure-naming
+
+The original, online version of this tool can be found at: https://azure-naming.klabbet.com/
+")]
 
 public class Options
 {
