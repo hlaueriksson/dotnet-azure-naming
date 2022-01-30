@@ -99,7 +99,7 @@ Find out where `dotnet-azure-naming` is installed:
 azure-naming --settings
 ```
 
-The output will include the location:e
+The output will include the location:
 
 ```cmd
 "Location": "C:/Users/<user>/.dotnet/tools/.store/dotnet-azure-naming/1.0.0/dotnet-azure-naming/1.0.0/tools/net6.0/any"
@@ -163,7 +163,7 @@ Make sure to take backups!
 
 You can also make use of Environment Variables to configure the naming convention.
 
-Set Environment Variables with PowerShell:
+Set Environment Variables via the terminal:
 
 ```cmd
 setx DotnetAzureNamingSettings:AzureResourceTypesPath "c:\work\azure-resource-types.csv"
