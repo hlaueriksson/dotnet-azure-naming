@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace DotnetAzureNaming.Tests
 {
+    [Explicit, Category("Integration")]
     public class IntegrationTests
     {
         [Test]
@@ -33,7 +34,7 @@ namespace DotnetAzureNaming.Tests
             result.ExitCode.Should().Be(0);
             result.StandardError.Should().BeEmpty();
             result.StandardOutput.Should().Be(
-@"Resource Type: AKS cluster
+@"Resource Type:  AKS cluster
 Project Name:   Titanic
 Component Name: Web
 Environment:    Development
@@ -50,7 +51,7 @@ Environment:    Development
             result.ExitCode.Should().Be(-1831741950);
             result.StandardError.Should().BeEmpty();
             result.StandardOutput.Should().Be(
-@"Resource Type: AKS cluster
+@"Resource Type:  AKS cluster
 Project Name:   LoremIpsumDolorSitAmetConsecteturAdipiscingElitSedDoEiusmodTemporIncididuntUtLaboreEtDoloreMagnaAliqua
 Component Name: Web
 Environment:    Development
