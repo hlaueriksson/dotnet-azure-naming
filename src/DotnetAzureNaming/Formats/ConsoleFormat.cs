@@ -8,7 +8,7 @@ public static class ConsoleFormat
         if (displayOptions)
         {
             if (result.ResourceType != null)
-                WriteLine($"Resource Type: {result.ResourceType.Type}");
+                WriteLine($"Resource Type:  {result.ResourceType.Type}");
             else
                 WriteError("Resource Type*:");
             if (result.ProjectName != null)
