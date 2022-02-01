@@ -75,6 +75,14 @@ azure-naming -r func -p Titanic -c Web -e dev -f json
 
 ![Format as JSON](azure-naming-args-json.png)
 
+PowerShell:
+
+```ps1
+$result = (azure-naming -r func -p Titanic -c Web -e dev -f json | ConvertFrom-Json)
+```
+
+![PowerShell](azure-naming-powershell.png)
+
 Help:
 
 ```cmd
@@ -82,6 +90,124 @@ azure-naming --help
 ```
 
 ![Help](azure-naming-args-help.png)
+
+Arguments:
+
+- `resource-type`, required
+
+  <details>
+    <summary>Azure Resource Type</summary>
+
+  Azure Resource Type **SHOULD** be one of the types in the [Microsoft list of Azure resource type abbreviations](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations).
+
+  If the azure type is not in the list, you should make up your own abbreviation that doesn't conflict with any of the official ones.
+
+  Must match one of the values of `Asset type` or `Abbreviation` from `azure-resource-types.csv`.
+  </details>
+
+- `project-name`, required
+
+  <details>
+    <summary>Project Name</summary>
+
+  You **MUST** include a project that MAY be the application name.
+
+  You **SHOULD** find a short name for your project or application that is easy to understand without specific domain knowledge.
+
+  You **SHOULD NOT** include redundant information in your name, i.e. the name of your company.
+
+  You **SHOULD NOT** use abbreviations in your name.
+  </details>
+
+- `component-name`
+
+  <details>
+    <summary>Component Name</summary>
+
+  You **SHOULD** include a component name if your project or application consists of several components. Examples of components are web, api, service.
+
+  You **SHOULD NOT** use resource type as component name, i.e. database, function, insights, vm.
+
+  You **MAY** omit the component name if the project name is sufficient.
+  </details>
+
+- `environment`
+
+  <details>
+    <summary>Environment</summary>
+
+  You **MUST** use the correct environment specifier for your environment.
+
+  | Specifier | Environment |
+  | --------- | ----------- |
+  | dev       | Development |
+  | test      | Test        |
+  | stage     | Staging     |
+  | prod      | Production  |
+
+  You **MAY** add custom environment specifiers to your naming convention.
+
+  Defaults to `Development`.
+  </details>
+
+## Azure CLI
+
+Use `azure-naming` together with [Azure CLI](https://docs.microsoft.com/en-us/azure/app-service/scripts/cli-deploy-github) to create a web app and deploy code from GitHub:
+
+```ps1
+# Get the resource name
+$result = (azure-naming -r app -p Titanic$(Get-Random) -c Web -e dev -f json | ConvertFrom-Json)
+
+# Replace the following URL with a public GitHub repo URL
+$gitrepo = "https://github.com/Azure-Samples/app-service-web-dotnet-get-started.git"
+
+# Create a resource group
+az group create --location westeurope --name $result.ResourceGroup
+
+# Create an App Service plan in FREE tier
+az appservice plan create --name $result.ResourceName --resource-group $result.ResourceGroup --sku FREE
+
+# Create a web app
+az webapp create --name $result.ResourceName --resource-group $result.ResourceGroup --plan $result.ResourceName
+
+# Deploy code from a public GitHub repository
+az webapp deployment source config --name $result.ResourceName --resource-group $result.ResourceGroup --repo-url $gitrepo --branch master --manual-integration
+
+# Copy the result of the following command into a browser to see the web app
+echo "https://$($result.ResourceName).azurewebsites.net"
+```
+
+## Azure PowerShell
+
+Use `azure-naming` together with [Azure PowerShell](https://docs.microsoft.com/en-us/azure/app-service/scripts/powershell-deploy-github) to create a web app and deploy code from GitHub:
+
+```ps1
+# Get the resource name
+$result = (azure-naming -r app -p Titanic$(Get-Random) -c Web -e dev -f json | ConvertFrom-Json)
+
+# Replace the following URL with a public GitHub repo URL
+$gitrepo = "https://github.com/Azure-Samples/app-service-web-dotnet-get-started.git"
+
+# Create a resource group
+New-AzResourceGroup -Location westeurope -Name $result.ResourceGroup
+
+# Create an App Service plan in Free tier
+New-AzAppServicePlan -Location westeurope -Name $result.ResourceName -ResourceGroupName $result.ResourceGroup -Tier Free
+
+# Create a web app
+New-AzWebApp -Location westeurope -Name $result.ResourceName -ResourceGroupName $result.ResourceGroup -AppServicePlan $result.ResourceName
+
+# Configure GitHub deployment from your GitHub repo and deploy once
+$PropertiesObject = @{
+    repoUrl = "$gitrepo";
+    branch = "master";
+    isManualIntegration = "true";
+}
+Set-AzResource -Properties $PropertiesObject -ResourceGroupName $result.ResourceGroup -ResourceType Microsoft.Web/sites/sourcecontrols -ResourceName "$($result.ResourceName)/web" -ApiVersion 2015-08-01 -Force
+
+# Copy the result of the following command into a browser to see the web app
+Write-Output "https://$($result.ResourceName).azurewebsites.net"
+```
 
 ## Create your own naming convention
 
