@@ -1,5 +1,7 @@
 # ☁️✍️ Azure Naming
 
+[![build](https://github.com/hlaueriksson/dotnet-azure-naming/actions/workflows/build.yml/badge.svg)](https://github.com/hlaueriksson/dotnet-azure-naming/actions/workflows/build.yml)
+
 This is a `dotnet` tool helping you to name Azure Resources.
 
 > It is a fork of:
